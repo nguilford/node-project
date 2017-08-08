@@ -3,6 +3,7 @@
 set -e
 
 dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+working_dir="$(pwd)"
 root_path="$1"
 project="$([ -n "$2" ] && echo $2|| echo basic)"
 base_path="${dir}/node-template-files"
@@ -10,7 +11,7 @@ base_path="${dir}/node-template-files"
 [ -n "${root_path}" ] || (printf "Arg required: project-path\n"; exit 1)
 
 function basic_packages()
-  {
+{
     npm install bunyan --save
     npm install convict --save
     npm install lodash --save
@@ -39,12 +40,20 @@ function rest_api_packages()
     npm install request-promise --save-dev
 }
 
+## To end up where we started
+trap "cd ${working_dir}" EXIT
+
+## Handle relative paths
+if [[ ! ${root_path} = '/'* ]] || [[ ! ${root_path} = '~'* ]]
+then
+    root_path="${working_dir}/${root_path}"
+fi
 
 ## Let's do our work at the project root
 cd ${root_path}
 
 ## Start with 'basic' node project
-cp -r "${base_path}/basic/" "${root_path}"
+cp -r "${base_path}/basic/." "${root_path}/"
 
 ## Handle project-specific dependencies
 case "$project" in
@@ -65,3 +74,5 @@ case "$project" in
         exit 1
         ;;
 esac
+
+printf "Project configured at ${root_path}\n"

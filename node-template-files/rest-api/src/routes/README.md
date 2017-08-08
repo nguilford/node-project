@@ -4,6 +4,8 @@ All API routes are defined here. Each set of endpoints should be defined in thei
 
 Each set of endpoints will be exported automatically by `src/routes/index.js` and registered in `src/server.js`.
 
+NOTE: [Handlers MUST NOT be implemented using fat-arrow style](https://hapijs.com/api#route-handler), lest you make Hapi sad.
+
 ## Example
 
 For a collection of `books` endpoints, we can create `route.books.js`, as follows:
@@ -14,9 +16,17 @@ import Book from '../models/book';
 export default function route(config) {
   return [
     {
+      method: 'POST',
+      path: '/books',
+      handler: function handler(request, reply) {
+        // Handle request
+      },
+    },
+
+    {
       method: 'GET',
       path: '/books',
-      handler: (request, reply) => {
+      handler: function handler(request, reply) {
         // Handle request
       },
     },
@@ -24,15 +34,7 @@ export default function route(config) {
     {
       method: 'GET',
       path: '/books/{bookId}',
-      handler: (request, reply) => {
-        // Handle request
-      },
-    },
-
-    {
-      method: 'POST',
-      path: '/books/{bookId}',
-      handler: (request, reply) => {
+      handler: function handler(request, reply) {
         // Handle request
       },
     },
@@ -40,15 +42,7 @@ export default function route(config) {
     {
       method: 'PUT',
       path: '/books/{bookId}',
-      handler: (request, reply) => {
-        // Handle request
-      },
-    },
-
-    {
-      method: 'DELETE',
-      path: '/books/{bookId}',
-      handler: (request, reply) => {
+      handler: function handler(request, reply) {
         // Handle request
       },
     },
@@ -56,7 +50,15 @@ export default function route(config) {
     {
       method: 'PATCH',
       path: '/books/{bookId}',
-      handler: (request, reply) => {
+      handler: function handler(request, reply) {
+        // Handle request
+      },
+    },
+
+    {
+      method: 'DELETE',
+      path: '/books/{bookId}',
+      handler: function handler(request, reply) {
         // Handle request
       },
     },

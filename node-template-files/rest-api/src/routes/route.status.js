@@ -3,12 +3,12 @@ export default function endpoints(config) {
     {
       method: 'GET',
       path: '/status',
-      handler: (request, reply) => (
-        reply({
+      handler: function handler(request, reply) {
+        return reply({
           status: 'healthy',
           version: config.get('version'),
-        })
-      ),
+        });
+      },
     },
   ];
 }
