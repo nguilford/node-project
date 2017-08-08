@@ -1,0 +1,67 @@
+#!/bin/bash
+
+set -e
+
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+root_path="$1"
+project="$([ -n "$2" ] && echo $2|| echo basic)"
+base_path="${dir}/node-template-files"
+
+[ -n "${root_path}" ] || (printf "Arg required: project-path\n"; exit 1)
+
+function basic_packages()
+  {
+    npm install bunyan --save
+    npm install convict --save
+    npm install lodash --save
+    npm install bluebird --save
+    npm install sequelize --save
+    npm install mocha --save-dev
+    npm install sinon --save-dev
+    npm install chai --save-dev
+    npm install babel-cli --save-dev
+    npm install babel-register --save-dev
+    npm install babel-preset-es2015  --save-dev
+
+    ## Airbnb eslint with dependencies
+    (
+      export PKG=eslint-config-airbnb;
+      npm info "$PKG@latest" peerDependencies --json | \
+          command sed 's/[\{\},]//g ; s/: /@/g' | \
+          xargs npm install --save-dev "$PKG@latest"
+    )
+}
+
+function rest_api_packages()
+{
+    npm install hapi --save
+    npm install request --save-dev
+    npm install request-promise --save-dev
+}
+
+
+## Let's do our work at the project root
+cd ${root_path}
+
+## Start with 'basic' node project
+cp -r "${base_path}/basic/" "${root_path}"
+
+## Handle project-specific dependencies
+case "$project" in
+    basic)
+        printf "Configuring basic node project...\n"
+        basic_packages
+        ;;
+    rest-api)
+        printf "Configuring REST API node project...\n"
+        rsync -r -l -p "${base_path}/rest-api/" "${root_path}"
+        basic_packages
+        rest_api_packages
+        ;;
+    *)
+        printf "Invalid project type. Valid types are:\n"
+        printf "\tbasic\n"
+        printf "\trest-api\n"
+        exit 1
+        ;;
+esac

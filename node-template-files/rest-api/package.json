@@ -1,0 +1,15 @@
+{
+  "name": "rest-api",
+  "version": "1.0.0",
+  "description": "REST API",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint src/ test/*.test.js",
+    "test": "npm run lint && npm run smoke",
+    "smoke": "APP_LOG_LEVEL=70 mocha ./test/smoke/**/*.test.js --require ./test/smoke/init.js",
+    "build": "babel src --out-dir lib --copy-files",
+    "start": "npm run build && node ./lib/index.js"
+  },
+  "author": "Nick Guilford",
+  "license": "ISC"
+}

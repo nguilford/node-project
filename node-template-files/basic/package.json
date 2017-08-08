@@ -1,0 +1,14 @@
+{
+  "name": "basic-node-app",
+  "version": "1.0.0",
+  "description": "Node application",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint src/ test/*.test.js",
+    "test": "npm run lint && APP_LOG_LEVEL=70 mocha ./test/smoke/**/*.test.js",
+    "build": "babel src --out-dir lib --copy-files",
+    "start": "npm run build && node ./lib/index.js"
+  },
+  "author": "Nick Guilford",
+  "license": "ISC"
+}

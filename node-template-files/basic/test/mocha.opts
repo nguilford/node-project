@@ -1,0 +1,4 @@
+--ui bdd
+--require ./test/helper.js
+--compilers js:babel-register
+--timeout 3000
