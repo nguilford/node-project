@@ -9,7 +9,7 @@ A node-based REST API server built using [Hapi](https://hapijs.com/) and [Sequel
 $ npm start
 ```
 
-Transpile all es6 code to plain javascript and then starts a local instance of the server listening at `localhost:8080`.
+Transpiles all es6 code to plain javascript and then starts a local instance of the server listening at `localhost:8080`.
 
 ## To Test:
 

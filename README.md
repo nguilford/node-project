@@ -24,4 +24,4 @@ Project structure for a very basic node app. Includes config management, logging
 
 Project structure for a Hapi- and Sequelize-based API server. Includes everything the basic app includes as well as an API server with route registration and an example endpoint, smoke tests for the example endpoint, and database management.  
 
-All project types include READMEs with information on the project and are configured with the [babel](http://eslint.org/) transpiler for es6, and [eslint](http://eslint.org/) configured for the [Airbnb style guide](https://github.com/airbnb/javascript).
+All project types include READMEs with information on the project and are configured with the [babel](http://eslint.org/) transpiler for es6, and [eslint](http://eslint.org/) configured for the [Airbnb style guide](https://github.com/airbnb/javascript). Tests configured with [mocha](https://mochajs.org) and [chai](http://chaijs.com/).
