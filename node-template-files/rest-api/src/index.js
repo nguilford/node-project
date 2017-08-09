@@ -1,8 +1,8 @@
-import Sequelize from 'sequelize';
+import Sequelize from 'sequelize'; // eslint-disable-line
 
 import Config from './config';
 import Server from './server';
-import Models from './models';
+import Models from './models'; // eslint-disable-line
 
 Config.initialize();
 

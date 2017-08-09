@@ -1,10 +1,15 @@
 import _ from 'lodash';
+import FS from 'fs';
 import Path from 'path';
 
 import Config from '../../../src/config';
 
 // Manually load environment specific configuration
-Config.loadFile(Path.join(__dirname, `../../../src/config/env/${Config.get('env')}.json`))
+const envConfig = Path.join(__dirname, `../../../src/config/env/${Config.get('env')}.json`);
+
+if (FS.existsSync(envConfig)) {
+  Config.loadFile(envConfig);
+}
 
 // Override settings as desired
 // Config.set('setting', 'value')
