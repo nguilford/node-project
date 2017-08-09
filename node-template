@@ -16,7 +16,6 @@ function basic_packages()
     npm install convict --save
     npm install lodash --save
     npm install bluebird --save
-    npm install sequelize --save
     npm install mocha --save-dev
     npm install sinon --save-dev
     npm install chai --save-dev
@@ -26,30 +25,51 @@ function basic_packages()
 
     ## Airbnb eslint with dependencies
     (
-      export PKG=eslint-config-airbnb;
-      npm info "$PKG@latest" peerDependencies --json | \
-          command sed 's/[\{\},]//g ; s/: /@/g' | \
-          xargs npm install --save-dev "$PKG@latest"
+        export PKG=eslint-config-airbnb;
+        npm info "$PKG@latest" peerDependencies --json | \
+            command sed 's/[\{\},]//g ; s/: /@/g' | \
+            xargs npm install --save-dev "$PKG@latest"
     )
 }
 
 function rest_api_packages()
 {
     npm install hapi --save
+    npm install sequelize --save
     npm install request --save-dev
     npm install request-promise --save-dev
 }
 
-## To end up where we started
 trap "cd ${working_dir}" EXIT
 
-## Handle relative paths
+## Configure the install path
 if [[ ! ${root_path} = '/'* ]] || [[ ! ${root_path} = '~'* ]]
 then
     root_path="${working_dir}/${root_path}"
 fi
 
-## Let's do our work at the project root
+mkdir -p ${root_path}
+
+if [ -n "$(ls -A ${root_path})" ]
+then
+    while true; do
+        read -p "${root_path} not empty. Continue anyway? (y/n) " choice
+
+        case $choice in
+            y|Y)
+              break
+              ;;
+            n|N)
+              printf "Exiting\n"
+              exit 1
+              ;;
+            *)
+              printf "Invalid choice\n"
+              ;;
+        esac
+    done
+fi
+
 cd ${root_path}
 
 ## Start with 'basic' node project
