@@ -36,6 +36,7 @@ function rest_api_packages()
 {
     npm install hapi --save
     npm install sequelize --save
+    npm install mysql --save
     npm install request --save-dev
     npm install request-promise --save-dev
 }
