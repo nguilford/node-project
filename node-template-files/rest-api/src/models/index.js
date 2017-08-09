@@ -10,7 +10,7 @@ const Models = {
     (function initModels(dir) {
       FS.readdirSync(dir).forEach((file) => {
         const filePath = Path.join(dir, file);
-        let model;
+        let model = [];
 
         // Recurse directories
         if (FS.lstatSync(filePath).isDirectory()) {
