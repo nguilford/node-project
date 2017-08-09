@@ -2,10 +2,11 @@ import FS from 'fs';
 import Path from 'path';
 import Bunyan from 'bunyan';
 
-const RE = /route[.].+[.]js/;
 
 const routes = {
   register: function register(server, config) {
+    const re = /[.]js$/;
+
     (function importRoutes(dir) {
       FS.readdirSync(dir).forEach((file) => {
         const filePath = Path.join(dir, file);
@@ -15,12 +16,11 @@ const routes = {
           importRoutes(filePath);
         }
 
-        // Ignore non-route modules
-        if (file.match(RE)) {
+        // Register all non-hidden, non-index .js files
+        if (file.match(re) && file.indexOf('.') !== 0 && file !== 'index.js') {
           // eslint-disable-next-line
           const route = require(filePath).default;
 
-          // Register all endpoints in route
           route(config).forEach((endpoint) => {
             server.route(endpoint);
             Bunyan.defaultLogger.info(`Registered endpoint: ${endpoint.method} ${endpoint.path}`);

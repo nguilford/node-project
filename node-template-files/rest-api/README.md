@@ -21,14 +21,14 @@ Runs eslint across all source and test code, followed by a suite of mocha tests.
 
 ## Development
 
-All API routes are defined in `src/routes`. Each set of endpoints should be defined in their own `route` module given by the name `/route[.]<endpoint>[.]js/`. Every `route` module must export a default function that returns an array of endpoint objects defined as [Hapi routes](https://hapijs.com/api#serverrouteoptions). This function will be passed a `config` defining the app's configuration for use by the handler if needed. New route files will have their endpoints registered automatically when the app starts. Registration is recursive, so you may organize your route files in any number of subfolders inside of `src/routes`.
+All API routes are defined in `src/routes`. Each set of endpoints should be defined in their own `route` module. Every `route` module must export a default function that returns an array of endpoint objects defined as [Hapi routes](https://hapijs.com/api#serverrouteoptions). This function will be passed a `config` defining the app's configuration for use by the handler if needed. New route files will have their endpoints registered automatically when the app starts. Registration is recursive, so you may organize your route files in any number of subfolders inside of `src/routes`. Hidden-files, index.js files and non-js files are ignored.
 
 #### Example
 
-For a collection of `books` endpoints, we create `route.books.js` and implement the following `route` function. In the real world, we would do input validation and error handling, but we'll keep things simple for this example.
+For a collection of `books` endpoints, we create `books.js` and implement the following `route` function. In the real world, we would do input validation and error handling, but we'll keep things simple for this example.
 
 ```javascript
-import Book from '../models/book';
+import Models from '../models';
 
 export default function route(config) {
   return [
@@ -36,12 +36,12 @@ export default function route(config) {
       method: 'POST',
       path: '/books',
       handler: function handler(request, reply) {
-        return Book.create(
+        return Models.Book.create(
           request.payload.name,
           request.payload.author
         )
-        .then(result => (
-          reply(result).code(201)
+        .then(book => (
+          reply(book).code(201)
         ));
       },
     },
@@ -50,9 +50,9 @@ export default function route(config) {
       method: 'GET',
       path: '/books',
       handler: function handler(request, reply) {
-        return Book.findAll()
-        .then(result => (
-          reply(result)
+        return Modles.Book.findAll()
+        .then(book => (
+          reply(book)
         ));
       },
     },
@@ -61,9 +61,9 @@ export default function route(config) {
       method: 'GET',
       path: '/books/{bookId}',
       handler: function handler(request, reply) {
-        return Book.findById(request.params.bookId)
-        .then(result => (
-          reply(result)
+        return Models.Book.findById(request.params.bookId)
+        .then(book => (
+          reply(book)
         ));
       },
     },
@@ -72,12 +72,12 @@ export default function route(config) {
       method: 'PUT',
       path: '/books/{bookId}',
       handler: function handler(request, reply) {
-        return Book.findById(request.params.bookId)
-        .then(result => (
-          result.update(request.payload)
+        return Models.Book.findById(request.params.bookId)
+        .then(book => (
+          book.update(request.payload)
         ))
-        .then(result => (
-          reply(result)
+        .then(book => (
+          reply(book)
         ));
       },
     },
@@ -86,12 +86,12 @@ export default function route(config) {
       method: 'PATCH',
       path: '/books/{bookId}',
       handler: function handler(request, reply) {
-        return Book.findById(request.params.bookId)
-        .then(result => (
-          result.update(request.payload)
+        return Models.Book.findById(request.params.bookId)
+        .then(book => (
+          book.update(request.payload)
         ))
-        .then(result => (
-          reply(result)
+        .then(book => (
+          reply(book)
         ));
       },
     },
@@ -99,7 +99,10 @@ export default function route(config) {
     {
       method: 'DELETE',
       path: '/books/{bookId}',
-        return Book.deleteById(request.params.bookId)
+        return Models.Book.findById(request.params.bookId)
+        .then((book) => (
+          book.delete()
+        )
         .then(() => (
           reply().code(204)
         ));
