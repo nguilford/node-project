@@ -29,14 +29,24 @@ export default class Server {
   }
 
   start() {
-    this.server.start(() => {
+    return this.server.start()
+    .then(() => {
       Bunyan.defaultLogger.info(`Server listening at ${this.server.info.uri}`);
+    })
+    .catch((error) => {
+      Bunyan.defaultLogger.error(`Failed to start server: ${error}`)
+      throw error;
     });
   }
 
   stop() {
-    this.server.stop(() => {
+    return this.server.stop()
+    .then(() => {
       Bunyan.defaultLogger.info('Server stopped');
+    })
+    .catch((error) => {
+      Bunyan.defaultLogger.error(`Failed to stop server cleanly: ${error}`);
+      throw error;
     });
   }
 }

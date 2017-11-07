@@ -18,6 +18,3 @@ _.forEach(Init, (initializer, name) => {
     initializer(Config);
   }
 });
-
-// Run the app
-const app = require('../../src/index').default;
