@@ -20,8 +20,11 @@ function basic_packages()
     npm install sinon --save-dev
     npm install chai --save-dev
     npm install babel-cli --save-dev
+    npm install babel-polyfill --save-dev
+    npm install babel-plugin-transform-builtin-extend --save-dev
+    npm install babel-plugin-transform-object-rest-spread --save-dev
     npm install babel-register --save-dev
-    npm install babel-preset-es2015  --save-dev
+    npm install babel-preset-env --save-dev
 
     ## Airbnb eslint with dependencies
     (
@@ -45,7 +48,7 @@ function rest_api_packages()
 trap "cd ${working_dir}" EXIT
 
 ## Configure the install path
-if [[ ! ${root_path} = '/'* ]] || [[ ! ${root_path} = '~'* ]]
+if [[ ! ${root_path} = '/'* ]] && [[ ! ${root_path} = '~'* ]]
 then
     root_path="${working_dir}/${root_path}"
 fi
