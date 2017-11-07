@@ -19,13 +19,13 @@ function exit(message) {
   Bunyan.defaultLogger.info(message);
 
   return server.stop()
-  .then(() => {
-    process.exit(0);
-  })
-  .catch((error) => {
-    Bunyan.defaultLogger.error(`Error shutting down: ${error}`);
-    process.exit(1);
-  });
+    .then(() => {
+      process.exit(0);
+    })
+    .catch((error) => {
+      Bunyan.defaultLogger.error(`Error shutting down: ${error}`);
+      process.exit(1);
+    });
 }
 
 process.on('SIGINT', () => {
