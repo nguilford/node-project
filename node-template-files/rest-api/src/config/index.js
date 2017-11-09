@@ -106,6 +106,12 @@ const config = convict({
       default: '',
       env: setEnv('DATABASE_NAME'),
     },
+
+    connection: {
+      doc: 'Default database connection object',
+      format: Object,
+      default: {},
+    },
   },
 });
 

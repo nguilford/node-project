@@ -9,7 +9,7 @@ export default function initialize(config) {
     dialect: config.get('database.dialect'),
     host: config.get('database.host'),
     storage: config.get('database.storage'),
-    defiine: {
+    define: {
       freezeTableName: true,
     },
   };
@@ -21,7 +21,7 @@ export default function initialize(config) {
     options
   );
 
-  Sequelize.defaultConnection = connection;
+  config.set('database.connection', connection);
 
   ******* */
 }

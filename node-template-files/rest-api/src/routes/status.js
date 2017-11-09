@@ -1,14 +1,13 @@
+import StatusController from '../controllers/status';
+
 export default function endpoints(config) {
+  const controller = new StatusController(config);
+
   return [
     {
       method: 'GET',
       path: '/status',
-      handler: function handler(request, reply) {
-        return reply({
-          status: 'healthy',
-          version: config.get('version'),
-        });
-      },
+      handler: controller.fetch.bind(controller),
     },
   ];
 }

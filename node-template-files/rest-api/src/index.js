@@ -9,7 +9,7 @@ Config.initialize();
 
 /* Add this to configure models when you have a db to connect to
 
-Models.initialize(Sequelize.defaultConnection, Config);
+Models.initialize(Config);
 
 */
 
@@ -37,4 +37,3 @@ process.on('SIGTERM', () => {
 });
 
 server.start();
-
